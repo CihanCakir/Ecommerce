@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Spesifications.Spec;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -10,16 +11,23 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductRepository _product;
-        public ProductsController(IProductRepository product)
+        private readonly IGenericRepository<Product> _productsRepo;
+        private readonly IGenericRepository<ProductBrand> _productBrand;
+        private readonly IGenericRepository<ProductType> _productTypeRepo;
+        public ProductsController(IGenericRepository<Product> productsRepo, IGenericRepository<ProductBrand> productBrand, IGenericRepository<ProductType> productTypeRepo)
         {
-            _product = product;
+            _productTypeRepo = productTypeRepo;
+            _productBrand = productBrand;
+            _productsRepo = productsRepo;
+
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var products = await _product.GetProductByIdAsync(id);
+            var spec = new ProTypBranSpec(id);
+
+            var products = await _productsRepo.GetEntityWithSpesification(spec);
             return Ok(products);
         }
 
@@ -27,21 +35,22 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
-            var products = await _product.GetProductsAsync();
+            var spec = new ProTypBranSpec();
+            var products = await _productsRepo.ListWithSpesifcation(spec);
             return Ok(products);
         }
 
         [HttpGet("brands")]
         public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
         {
-            var brands = await _product.GetProductBrandsAsync();
+            var brands = await _productBrand.ListAllAsync();
             return Ok(brands);
         }
 
         [HttpGet("types")]
         public async Task<ActionResult<List<ProductType>>> GetProductTypes()
         {
-            var types = await _product.GetProductTypesAsync();
+            var types = await _productTypeRepo.ListAllAsync();
             return Ok(types);
         }
 
