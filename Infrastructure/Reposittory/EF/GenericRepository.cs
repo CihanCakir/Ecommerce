@@ -35,9 +35,15 @@ namespace Infrastructure.Reposittory.EF
         {
             return await ApplySpecification(spesification).FirstOrDefaultAsync();
         }
+        public async Task<int> CountAsync(ISpesification<T> spesification)
+        {
+            return await ApplySpecification(spesification).CountAsync();
+        }
         private IQueryable<T> ApplySpecification(ISpesification<T> spesification)
         {
             return SpesificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spesification);
         }
+
+
     }
 }

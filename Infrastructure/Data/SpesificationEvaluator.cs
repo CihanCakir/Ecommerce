@@ -14,6 +14,19 @@ namespace Infrastructure.Data
             {
                 query = query.Where(spesification.Criteria); // p => p.ProductTypeId == id 
             }
+            if (spesification.OrderBy != null)
+            {
+                query = query.OrderBy(spesification.OrderBy); // p => p.ProductTypeId == id 
+            }
+            if (spesification.OrderByDescending != null)
+            {
+                query = query.OrderByDescending(spesification.OrderByDescending); // p => p.ProductTypeId == id 
+            }
+            if (spesification.IsPagingEnabled)
+            {
+                query = query.Skip(spesification.Skip).Take(spesification.Take);
+            }
+
             query = spesification.Includes.Aggregate(query, (current, include) => current.Include(include));
             return query;
         }
