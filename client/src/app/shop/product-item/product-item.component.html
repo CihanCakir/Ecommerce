@@ -4,8 +4,8 @@
     alt="{{ product.name }}"
     class="img-fluid bg-info"
   />
-  <div class="card-body">
-    <a href="#">
+  <div class="card-body ">
+    <a routerLink="/shop/{{ product.id }}">
       <h6 class="text-uppercase">{{ product.name }}</h6>
     </a>
     <span class="mb-2"> {{ product.price | currency: "TRY":"symbol" }} ₺ </span>
