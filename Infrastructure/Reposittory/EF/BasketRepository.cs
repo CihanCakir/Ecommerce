@@ -7,6 +7,7 @@ using StackExchange.Redis;
 
 namespace Infrastructure.Reposittory.EF
 {
+    // REDİSS NOT EF
     public class BasketRepository : IBasketRepository
     {
         private readonly IDatabase _database;
