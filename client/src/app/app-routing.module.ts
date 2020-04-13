@@ -41,6 +41,18 @@ const routes: Routes = [
       import('./checkout/checkout.module').then(mod => mod.CheckoutModule),
     data: { breadcrumb: 'Ödeme' }
   },
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('./account/account.module').then(mod => mod.AccountModule),
+    data: { breadcrumb: { skip: true } }
+  },
+  {
+    path: 'editor',
+    loadChildren: () =>
+      import('./admin/admin.module').then(mod => mod.AdminModule),
+    data: { breadcrumb: { skip: true } }
+  },
   { path: '**', redirectTo: 'not-found', pathMatch: 'full' }
 ];
 

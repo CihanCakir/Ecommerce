@@ -79,8 +79,9 @@ namespace Infrastructure.Identity.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    Street = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
+                    IL = table.Column<string>(nullable: true),
+                    Ilce = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
                     ZipCode = table.Column<string>(nullable: true),
                     AppUserId = table.Column<string>(nullable: true)
@@ -184,7 +185,8 @@ namespace Infrastructure.Identity.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Address_AppUserId",
                 table: "Address",
-                column: "AppUserId");
+                column: "AppUserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

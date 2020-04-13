@@ -41,7 +41,7 @@ namespace API
             // EKLEDİĞİMİZ TÜM CONFİG VE EXTENSİONSLAR ADDAPPLİCATİON SERVİCESDE
             services.AddApplicationServices();
 
-            services.AddIdentityServices();
+            services.AddIdentityServices(_config);
 
             services.AddSwaggerDocumentation();
 
@@ -76,6 +76,7 @@ namespace API
 
             app.UseCors("CorsPolicy");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwaggerDocumention();

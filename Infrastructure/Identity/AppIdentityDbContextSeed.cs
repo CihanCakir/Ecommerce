@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Entities.Identity;
@@ -8,7 +7,7 @@ namespace Infrastructure.Identity
 {
     public class AppIdentityDbContextSeed
     {
-        public static async Task SeedUserAsync(UserManager<AppUser> userManager)
+        public static async Task SeedUsersAsync(UserManager<AppUser> userManager)
         {
             if (!userManager.Users.Any())
             {
@@ -17,18 +16,18 @@ namespace Infrastructure.Identity
                     DisplayName = "Cihan",
                     Email = "cihan@test.com",
                     UserName = "cihan@test.com",
-                    Addresses = new List<Address>
+                    Address = new Address
                     {
-                        new Address{
-                            FirstName = "Cihan",
-                            LastName = "Çakır",
-                            Street = "Çıkmaz Sokak",
-                            City = "İstanbul",
-                            State= "IST",
-                            ZipCode="43222"
-                        }
+                        FirstName = "Bob",
+                        LastName = "Bobbity",
+                        Ilce = "10 The Street",
+                        IL = "New York",
+                        State = "NY",
+                        ZipCode = "90210",
+                        Description = "Bahadır Çıkmaz Caddesi"
                     }
                 };
+
                 await userManager.CreateAsync(user, "Pa$$w0rd");
             }
         }
