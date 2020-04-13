@@ -20,6 +20,9 @@ namespace API.Dtos.Accout
         public string State { get; set; }
 
         [Required]
+        public string Description { get; set; }
+
+        [Required]
         public string Zipcode { get; set; }
     }
 }

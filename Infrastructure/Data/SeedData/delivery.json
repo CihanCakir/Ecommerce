@@ -1,0 +1,30 @@
+[
+  {
+    "Id": 1,
+    "ShortName": "UPS",
+    "Description": "Bugün Kargoda",
+    "DeliveryTime": "1-2 gün",
+    "Price": 10
+  },
+  {
+    "Id": 2,
+    "ShortName": "MNG",
+    "Description": "5 gün içinde ",
+    "DeliveryTime": "2-5 gün",
+    "Price": 5
+  },
+  {
+    "Id": 3,
+    "ShortName": "PTT",
+    "Description": "Yavaş ama ucuz",
+    "DeliveryTime": "5-10 gün",
+    "Price": 2
+  },
+  {
+    "Id": 4,
+    "ShortName": "PTT",
+    "Description": "BEDAVA Paravermene Gerek yok",
+    "DeliveryTime": "1-2 hafa",
+    "Price": 0
+  }
+]

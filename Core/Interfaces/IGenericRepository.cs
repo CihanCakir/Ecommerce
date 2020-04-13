@@ -13,6 +13,13 @@ namespace Core.Interfaces
         Task<T> GetEntityWithSpesification(ISpesification<T> spesification);
         Task<IReadOnlyList<T>> ListWithSpesifcation(ISpesification<T> spesification);
         Task<int> CountAsync(ISpesification<T> spesification);
+        // TASK CREATE_ UPDATE_ DELETE METHODLARI EKLENECEK
+
+        void Add(T entity);
+        void Update(T entity);
+        void Delete(T entity);
+
+
 
     }
 }
