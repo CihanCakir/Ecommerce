@@ -10,16 +10,13 @@ namespace Infrastructure.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IGenericRepository<Order> _orderRepo;
-        private readonly IGenericRepository<DeliveryMethod> _dmRepo;
-        private readonly IGenericRepository<Product> _ProductRepo;
+
         private readonly IBasketRepository _basketRepo;
         private readonly IUnitOfWork __unitOfWork;
         public OrderService(IBasketRepository basketRepo, IUnitOfWork _unitOfWork)
         {
             __unitOfWork = _unitOfWork;
             _basketRepo = basketRepo;
-
         }
 
         public async Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethodId, string basketId, Address shippingAddress, decimal dortadim)
@@ -31,13 +28,13 @@ namespace Infrastructure.Services
             foreach (var item in basket.Items)
             {
                 // Product itemleri buradan  Ordered Item set etiriyoruz.
-                var productItem = await _ProductRepo.GetByIdAsync(item.Id);
+                var productItem = await __unitOfWork.Repository<Product>().GetByIdAsync(item.Id);
                 var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.PictureUrl);
                 var orderItem = new OrderItem(itemOrdered, productItem.Price, item.Quantity);
                 items.Add(orderItem);
             }
             // gönderim tipini repon geliyor.
-            var deliveryMethod = await _dmRepo.GetByIdAsync(deliveryMethodId);
+            var deliveryMethod = await __unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
             //  cupon codu repodan gleiyor
             // var couponCode  = await _couponRepo.GetCopunCode(couponCode);
             // kampana  tipini repoddan geliyoe
@@ -47,8 +44,16 @@ namespace Infrastructure.Services
 
 
             var order = new Order(items, buyerEmail, shippingAddress, deliveryMethod, subTotal, dortadim);
+            __unitOfWork.Repository<Order>().Add(order);
 
-            // create order  TODO
+            // create order  TODOü
+            var result = await __unitOfWork.Complete();
+            if (result <= 0)
+            {
+                return null;
+            }
+            //Delete Basket
+            await _basketRepo.DeleteBasketAsync(basketId);
 
             // Return Order
             return order;
