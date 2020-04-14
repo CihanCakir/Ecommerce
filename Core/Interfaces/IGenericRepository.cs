@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.Entities.OrderAggregate;
 using Core.Spesifications;
+using Core.Spesifications.Spec;
 
 namespace Core.Interfaces
 {
@@ -18,8 +20,5 @@ namespace Core.Interfaces
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);
-
-
-
     }
 }
