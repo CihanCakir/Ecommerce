@@ -10,6 +10,7 @@ import {
 } from '../shared/models/basket';
 import { map } from 'rxjs/operators';
 import { IProduct } from '../shared/models/product';
+import { IDeliveryMethod } from '../shared/models/deliveryMethod';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,19 @@ export class BasketService {
   private basketTotalSource = new BehaviorSubject<IBasketTotals>(null);
   basketTotal$ = this.basketTotalSource.asObservable();
 
+  shippig = 0;
+  dortadim = 0.0;
+
   constructor(private http: HttpClient) {}
 
+  setShippingPrice(deliveryMethod: IDeliveryMethod) {
+    this.shippig = deliveryMethod.price;
+    this.calculateTotals();
+  }
+  setDortadimPrice(doradim: number) {
+    this.dortadim = doradim;
+    this.calculateTotals();
+  }
   getBasket(id: string) {
     return this.http.get(this.baseUrl + 'basket?id=' + id).pipe(
       map((basket: IBasket) => {
@@ -47,6 +59,10 @@ export class BasketService {
   getCurrentBasketValue() {
     return this.basketSource.value;
   }
+  getCurrentBasketTotalValue() {
+    return this.basketTotalSource.value;
+  }
+
   addItemToBasket(item: IProduct, quantity = 1) {
     const itemToAdd: IBasketItem = this.mapProductItemToBasketItem(
       item,
@@ -87,6 +103,13 @@ export class BasketService {
       }
     }
   }
+
+  deleteLocalBasket(id: string) {
+    this.basketSource.next(null);
+    this.basketTotalSource.next(null);
+    localStorage.removeItem('basket_id');
+  }
+
   deleteBasket(basket: IBasket) {
     return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe(
       () => {
@@ -102,31 +125,17 @@ export class BasketService {
 
   //#region  Private Basket METHOD
 
-  private calculateTotals() {
+  public calculateTotals() {
     const basket = this.getCurrentBasketValue();
-    const shipping = 0;
+    const shipping = this.shippig;
     const subtotal = basket.items.reduce((a, b) => b.price * b.quantity + a, 0);
-    let dortadim = this.subTotal(subtotal + shipping) - (subtotal + shipping);
-    if (dortadim <= 2) {
-      dortadim = 2;
-    }
+    const dortadim = this.dortadim;
     const total = subtotal + shipping + dortadim;
     this.basketTotalSource.next({ shipping, total, subtotal, dortadim });
   }
 
   //#region DortAdim CALCULATE
 
-  private roundUp(a: number, b: number) {
-    return Math.ceil(a / b) * b;
-  }
-  private subTotal(a: number) {
-    const bes = this.roundUp(a, 5);
-    if (bes - a <= 1.8) {
-      const cs = this.roundUp(a, 10);
-      return cs;
-    }
-    return bes;
-  }
   //#endregion
 
   private addOrUpdateItem(

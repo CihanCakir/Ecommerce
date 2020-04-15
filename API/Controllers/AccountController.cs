@@ -88,7 +88,7 @@ namespace API.Controllers
             }
             else
             {
-                await _mailService.SendEmailAsync(loginDto.Email, "New Login", "<h1> Hey ! new login to ypır account noticed</h1> <p>New login to your account at " + DateTime.Now + " </p>");
+                //  await _mailService.SendEmailAsync(loginDto.Email, "New Login", "<h1> Hey ! new login to ypır account noticed</h1> <p>New login to your account at " + DateTime.Now + " </p>");
                 return new UserDto
                 {
                     Email = user.Email,
@@ -122,7 +122,7 @@ namespace API.Controllers
 
             //string url = $"{_configr}"
             if (!result.Succeeded) return BadRequest(new ApiResponse(400));
-
+            //     await _userManager.AddToRoleAsync(user,"Custmer");
             return new UserDto
             {
                 DisplayName = user.DisplayName,

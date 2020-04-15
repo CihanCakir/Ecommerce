@@ -1,0 +1,49 @@
+<!-- <div class="mt-4" [formGroup]="checkoutForm">
+  <div class="row" formGroupName="dortadimForm">
+    <div class="col-6 form-group">
+      <input
+        type="radio"
+        (click)="setDortadimPrice(true)"
+        formControlName="dortadimM"
+        class="custom-control-input"
+      />
+      <label class="custom-control-label">
+        <strong> Dörtadım</strong>
+      </label>
+      <br />
+      <span class="label-description"> </span>
+    </div>
+  </div>
+</div> -->
+
+<div class="mt-4">
+  <div class="row">
+    <div class="col-12 form-group">
+      <input type="radio" class="custom-control-input" />
+      <label class="custom-control-label">
+        <strong>
+          Dörtadım A Destek Olmak istermisiniiz
+          {{ (basketTotal$ | async).dortadim | currency }}
+        </strong>
+      </label>
+      <br />
+      <span class="label-description">
+        Yapacağınız her destek dörtadımı gelişim sürecinde destek olunmasını
+        sağlar</span
+      >
+    </div>
+  </div>
+</div>
+
+<div>
+  <div
+    class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5"
+  >
+    <button class="btn btn-outline-primary" cdkStepperPrevious>
+      <i class="fa fa-angle-left"></i> gödnerim
+    </button>
+    <button class="btn btn-primary" cdkStepperNext>
+      Görüntüle <i class="fa fa-angle-right"></i>
+    </button>
+  </div>
+</div>
