@@ -29,7 +29,7 @@ export class BasketSummaryComponent implements OnInit {
     this.decrement.emit(item);
   }
   incrementItemQuantity(item: IBasketItem) {
-    this.decrement.emit(item);
+    this.increment.emit(item);
   }
   removeBasketItem(item: IBasketItem) {
     this.decrement.emit(item);
