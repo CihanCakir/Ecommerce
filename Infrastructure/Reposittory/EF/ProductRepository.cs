@@ -44,5 +44,9 @@ namespace Infrastructure.Reposittory.EF
                                 .ToListAsync();
         }
 
+        public void GetMessage()
+        {
+
+        }
     }
 }

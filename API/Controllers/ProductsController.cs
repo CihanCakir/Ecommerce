@@ -17,9 +17,12 @@ namespace API.Controllers
         private readonly IGenericRepository<ProductBrand> _productBrand;
         private readonly IGenericRepository<ProductType> _productTypeRepo;
         private readonly IMapper _mapper;
-        public ProductsController(IGenericRepository<Product> productsRepo, IGenericRepository<ProductBrand> productBrand, IGenericRepository<ProductType> productTypeRepo, IMapper mapper)
+        private readonly IExampleService _example;
+
+        public ProductsController(IGenericRepository<Product> productsRepo, IGenericRepository<ProductBrand> productBrand, IGenericRepository<ProductType> productTypeRepo, IMapper mapper, IExampleService example)
         {
             _mapper = mapper;
+            _example = example;
             _productTypeRepo = productTypeRepo;
             _productBrand = productBrand;
             _productsRepo = productsRepo;
@@ -33,12 +36,14 @@ namespace API.Controllers
 
             var products = await _productsRepo.GetEntityWithSpesification(spec);
 
+            _example.GenerateMessage();
+
             return _mapper.Map<Product, ProductDto>(products);
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<Pagination<ProductDto>>> GetProducts([FromQuery]ProductSpecParams productParams)
+        public async Task<ActionResult<Pagination<ProductDto>>> GetProducts([FromQuery] ProductSpecParams productParams)
         {
             var spec = new ProTypBranSpec(productParams);
 
